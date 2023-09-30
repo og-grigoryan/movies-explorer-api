@@ -15,7 +15,13 @@ const EMAIL_REGULAR_EXP = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"
 
 // разрешенные адреса для передачи запросов на сервер
 const ALLOWED_CORS = [
-
+  'http://movie.grig.nomoredomainsrocks.ru',
+  'https://movie.grig.nomoredomainsrocks.ru',
+  'http://api.movie.grig.nomoredomainsrocks.ru',
+  'https://api.movie.grig.nomoredomainsrocks.ru',
+  'http://51.250.89.190',
+  'https://51.250.89.190',
+  'http://localhost:3000',
 ];
 
 // разрешенные методы для передачи запросов на сервер

@@ -6,4 +6,4 @@ Backend-часть дипломного проекта курса Yandex Practic
 
 ## Ссылки на проект
 
-Backend 
+Backend https://api.movie.grig.nomoredomainsrocks.ru
