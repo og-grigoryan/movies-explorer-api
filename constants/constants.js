@@ -19,8 +19,8 @@ const ALLOWED_CORS = [
   'https://movie.grig.nomoredomainsrocks.ru',
   'http://api.movie.grig.nomoredomainsrocks.ru',
   'https://api.movie.grig.nomoredomainsrocks.ru',
-  'http://51.250.89.190',
-  'https://51.250.89.190',
+  'http://62.84.119.124',
+  'https://62.84.119.124',
   'http://localhost:3000',
 ];
 
