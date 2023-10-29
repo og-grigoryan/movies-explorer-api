@@ -1,10 +1,10 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const { CREATED_CODE } = require('../constants/constants');
-const User = require('../models/users');
-const BadRequestError = require('../errors/BadRequestError');
-const UnauthorizedError = require('../errors/UnauthorizedError');
-const ConflictError = require('../errors/ConflictError');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { CREATED_CODE } = require("../constants/constants");
+const User = require("../models/users");
+const BadRequestError = require("../errors/BadRequestError");
+const UnauthorizedError = require("../errors/UnauthorizedError");
+const ConflictError = require("../errors/ConflictError");
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -17,19 +17,16 @@ const getUserMe = (req, res, next) => {
       res.send(user);
     })
     .catch((err) => {
-      next((err));
+      next(err);
     });
 };
 
 // создаёт пользователя с переданными в теле email, password и name
 const createUser = (req, res, next) => {
-  const {
-    email,
-    password,
-    name,
-  } = req.body;
+  const { email, password, name } = req.body;
 
-  bcrypt.hash(password, 10)
+  bcrypt
+    .hash(password, 10)
     .then((hash) => {
       User.create({
         email,
@@ -43,16 +40,22 @@ const createUser = (req, res, next) => {
         })
         .catch((err) => {
           if (err.code === 11000) {
-            next(new ConflictError('Пользователь с таким E-mail уже существует'));
-          } else if (err.name === 'ValidationError') {
-            next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
+            next(
+              new ConflictError("Пользователь с таким E-mail уже существует")
+            );
+          } else if (err.name === "ValidationError") {
+            next(
+              new BadRequestError(
+                "Переданы некорректные данные при создании пользователя"
+              )
+            );
           } else {
             next(err);
           }
         });
     })
     .catch((err) => {
-      next((err));
+      next(err);
     });
 };
 
@@ -61,16 +64,24 @@ const updateUserData = (req, res, next) => {
   const userId = req.user._id;
   const { name, email } = req.body;
 
-  User.findByIdAndUpdate(userId, { name, email }, { new: true, runValidators: true })
+  User.findByIdAndUpdate(
+    userId,
+    { name, email },
+    { new: true, runValidators: true }
+  )
     .orFail()
     .then((user) => {
       res.send(user);
     })
     .catch((err) => {
       if (err.code === 11000) {
-        next(new ConflictError('Пользователь с таким E-mail уже существует'));
-      } else if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные при обновлении информации о пользователе'));
+        next(new ConflictError("Пользователь с таким E-mail уже существует"));
+      } else if (err.name === "ValidationError") {
+        next(
+          new BadRequestError(
+            "Переданы некорректные данные при обновлении информации о пользователе"
+          )
+        );
       } else {
         next(err);
       }
@@ -79,33 +90,41 @@ const updateUserData = (req, res, next) => {
 
 // проверяет переданные в теле почту и пароль и возвращает JWT
 const login = (req, res, next) => {
-  const {
-    email,
-    password,
-  } = req.body;
+  const { email, password } = req.body;
 
-  User.findOne({ email }).select('+password')
+  User.findOne({ email })
+    .select("+password")
 
     .then((user) => {
       if (!user) {
-        return next(new UnauthorizedError('Неправильные почта или пароль'));
+        return next(new UnauthorizedError("Неправильные почта или пароль"));
       }
 
-      bcrypt.compare(password, user.password)
-        .then((matched) => {
-          if (!matched) {
-            return next(new UnauthorizedError('Неправильные почта или пароль'));
-          }
+      bcrypt.compare(password, user.password).then((matched) => {
+        if (!matched) {
+          return next(new UnauthorizedError("Неправильные почта или пароль"));
+        }
 
-          const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'SECRET_KEY', { expiresIn: '7d' });
+        const token = jwt.sign(
+          { _id: user._id },
+          NODE_ENV === "production" ? JWT_SECRET : "SECRET_KEY",
+          { expiresIn: "7d" }
+        );
 
-          return res.send({ token });
+        return res.send({
+          token,
+          user: {
+            _id: user._id,
+            email: user.email,
+            name: user.name,
+          },
         });
+      });
 
       return false;
     })
     .catch((err) => {
-      next((err));
+      next(err);
     });
 };
 

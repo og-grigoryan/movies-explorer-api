@@ -8,24 +8,26 @@ const CONFLICT_ERROR_CODE = 409;
 const INTERNAL_SERVER_ERROR_CODE = 500;
 
 // регулярное выражение для валидации URL
-const URL_REGULAR_EXP = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]*)?$/im;
+const URL_REGULAR_EXP =
+  /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]*)?$/im;
 
 // регулярное выражение для валидации E-MAIL
-const EMAIL_REGULAR_EXP = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+const EMAIL_REGULAR_EXP =
+  /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
 
 // разрешенные адреса для передачи запросов на сервер
 const ALLOWED_CORS = [
-  'http://movie.grig.nomoredomainsrocks.ru',
-  'https://movie.grig.nomoredomainsrocks.ru',
-  'http://api.movie.grig.nomoredomainsrocks.ru',
-  'https://api.movie.grig.nomoredomainsrocks.ru',
-  'http://62.84.119.124',
-  'https://62.84.119.124',
-  'http://localhost:3000',
+  "http://movie.grig.nomoredomainsrocks.ru",
+  "https://movie.grig.nomoredomainsrocks.ru",
+  "http://api.movie.grig.nomoredomainsrocks.ru",
+  "https://api.movie.grig.nomoredomainsrocks.ru",
+  "http://62.84.119.124",
+  "https://62.84.119.124",
+  "http://localhost:3001",
 ];
 
 // разрешенные методы для передачи запросов на сервер
-const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
+const DEFAULT_ALLOWED_METHODS = "GET,HEAD,PUT,PATCH,POST,DELETE";
 
 module.exports = {
   CREATED_CODE,
